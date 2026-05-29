@@ -325,12 +325,10 @@ state TITLE_ALIGN:
   alignment = 'left', 'center', 'right'
       -> call cfg_title_align($alignment)
 
-# titlebar_buttons enable|disable
+# Titlebar buttons (enabled/disabled)
 state TITLEBAR_BUTTONS:
-  value = '1', 'yes', 'true', 'on', 'enable', 'active'
-      -> call cfg_titlebar_buttons($value)
-  value = '0', 'no', 'false', 'off', 'disable', 'inactive'
-      -> call cfg_titlebar_buttons($value)
+  value = 'enabled', 'disabled'
+    -> call cfg_titlebar_buttons($value)
 
 # show_marks
 state SHOW_MARKS:
