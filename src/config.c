@@ -181,6 +181,8 @@ bool load_configuration(const char *override_configpath, config_load_t load_type
     /* Clear the old config or initialize the data structure */
     memset(&config, 0, sizeof(config));
 
+    config.titlebar_buttons_enabled = false;
+
     /* Initialize default colors */
 #define INIT_COLOR(x, cborder, cbackground, ctext, cindicator) \
     do {                                                       \

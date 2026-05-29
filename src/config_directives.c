@@ -8,6 +8,7 @@
  *
  */
 #include "all.h"
+#include "config_directives.h"
 
 #include <wordexp.h>
 
@@ -967,4 +968,23 @@ CFGFUN(bar_finish) {
     TAILQ_INSERT_TAIL(&barconfigs, current_bar, configs);
     /* Simply reset the pointer, but don't free the resources. */
     current_bar = NULL;
+}
+
+/*void cfg_titlebar_buttons(Match *current_match, ConfigResultIR *result, const char *value) {
+    if (strcmp(value, "enabled") == 0) {
+        config.titlebar_buttons_enabled = true;
+    } else {
+        config.titlebar_buttons_enabled = false;
+    }
+}*/
+CFGFUN(titlebar_buttons, const char *value) {
+    if (strcmp(value, "enabled") == 0) {
+        config.titlebar_buttons_enabled = true;
+    } else if (strcmp(value, "disabled") == 0) {
+        config.titlebar_buttons_enabled = false;
+    } else {
+        /* Dies sollte durch die Definition in der .spec Datei 
+         * eigentlich schon abgefangen sein, aber sicher ist sicher. */
+        ELOG("Invalid value for titlebar_buttons: %s\n", value);
+    }
 }

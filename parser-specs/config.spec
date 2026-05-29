@@ -57,6 +57,7 @@ state INITIAL:
   'restart_state'                          -> RESTART_STATE
   'popup_during_fullscreen'                -> POPUP_DURING_FULLSCREEN
   'tiling_drag'                            -> TILING_DRAG
+  'titlebar_buttons'       -> TITLEBAR_BUTTONS
   exectype = 'exec_always', 'exec'         -> EXEC
   colorclass = 'client.background'
       -> COLOR_SINGLE
@@ -323,6 +324,11 @@ state FORCE_DISPLAY_URGENCY_HINT:
 state TITLE_ALIGN:
   alignment = 'left', 'center', 'right'
       -> call cfg_title_align($alignment)
+
+# Titlebar buttons (enabled/disabled)
+state TITLEBAR_BUTTONS:
+  value = 'enabled', 'disabled'
+    -> call cfg_titlebar_buttons($value)
 
 # show_marks
 state SHOW_MARKS:

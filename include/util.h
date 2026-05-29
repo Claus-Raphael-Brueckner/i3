@@ -195,3 +195,7 @@ const char *direction_to_string(direction_t direction) __attribute__((__const__)
  *
  */
 const char *position_to_string(position_t position) __attribute__((__const__));
+
+void draw_icon_close(cairo_t *cr, double x, double y, double size, color_t color);
+void draw_icon_float(cairo_t *cr, double x, double y, double size, color_t color, bool is_floating);
+void draw_icon_stick(cairo_t *cr, double x, double y, double size, color_t color, bool active);

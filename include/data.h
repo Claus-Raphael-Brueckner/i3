@@ -805,4 +805,10 @@ struct Con {
 
     /* The colormap for this con if a custom one is used. */
     xcb_colormap_t colormap;
+
+    struct {
+        Rect close;
+        Rect float_switch;
+        Rect stick;
+    } deco_buttons;
 };

@@ -280,6 +280,8 @@ struct Config {
 
     /* Disable gaps if there is only one container on the workspace */
     smart_gaps_t smart_gaps;
+
+    bool titlebar_buttons_enabled;
 };
 
 /**
@@ -458,3 +460,12 @@ bool load_configuration(const char *override_configfile, config_load_t load_type
  *
  */
 void ungrab_all_keys(xcb_connection_t *conn);
+
+
+struct ConfigResultIR;
+typedef struct ConfigResultIR ConfigResultIR;
+
+struct Match;
+struct ConfigResultIR;
+
+void cfg_titlebar_buttons(struct Match *current_match, struct ConfigResultIR *result, const char *value);

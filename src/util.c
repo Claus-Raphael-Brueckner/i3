@@ -524,3 +524,76 @@ const char *position_to_string(position_t position) {
     }
     return "invalid";
 }
+
+/* Helper function for the closing symbol (X) */
+void draw_icon_close(cairo_t *cr, double x, double y, double size, color_t color) {
+    cairo_save(cr);
+    cairo_set_source_rgba(cr, color.red, color.green, color.blue, color.alpha);
+    cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
+    cairo_set_line_width(cr, logical_px(2));
+
+    /* 30% Margin */
+    double m = size * 0.30;
+    
+    cairo_move_to(cr, x + m, y + m);
+    cairo_line_to(cr, x + size - m, y + size - m);
+    cairo_move_to(cr, x + size - m, y + m);
+    cairo_line_to(cr, x + m, y + size - m);
+    
+    cairo_stroke(cr);
+    cairo_restore(cr);
+}
+
+/* Helper function for the Floating Symbol */
+void draw_icon_float(cairo_t *cr, double x, double y, double size, color_t color, bool is_floating) {
+    cairo_save(cr);
+    cairo_set_source_rgba(cr, color.red, color.green, color.blue, color.alpha);
+    cairo_set_line_width(cr, logical_px(1));
+
+    double m = size * 0.25;
+    double rect_size = size * 0.45;
+
+    cairo_rectangle(cr, x + m, y + m, rect_size, rect_size);
+    cairo_stroke(cr);
+    cairo_rectangle(cr, x + m + (size*0.15), y + m + (size*0.15), rect_size, rect_size);
+    cairo_fill(cr); // Das vordere Quadrat ausgefüllt
+
+    cairo_restore(cr);
+}
+
+void draw_icon_stick(cairo_t *cr, double x, double y, double size, color_t color, bool active) {
+    cairo_save(cr);
+    
+    // Wenn nicht aktiv, reduzieren wir die Deckkraft (z.B. auf 30%)
+    double alpha = active ? color.alpha : (color.alpha * 0.15);
+    cairo_set_source_rgba(cr, color.red, color.green, color.blue, alpha);
+    
+    cairo_set_line_width(cr, logical_px(1.5));
+    cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
+
+    double cx = x + size / 2.0;
+    double cy = y + size / 2.0;
+    
+    double head_width = size * 0.4;
+    double body_height = size * 0.25;
+    double needle_length = size * 0.3;
+
+    cairo_translate(cr, cx, cy);
+    cairo_rotate(cr, -3.14159 / 4.0); 
+
+    // 1. Kopf
+    cairo_move_to(cr, -head_width / 2.0, -body_height);
+    cairo_line_to(cr, head_width / 2.0, -body_height);
+    cairo_stroke(cr);
+
+    // 2. Körper
+    cairo_rectangle(cr, -head_width / 4.0, -body_height, head_width / 2.0, body_height);
+    cairo_fill(cr);
+
+    // 3. Spitze
+    cairo_move_to(cr, 0, 0);
+    cairo_line_to(cr, 0, needle_length);
+    cairo_stroke(cr);
+
+    cairo_restore(cr);
+}

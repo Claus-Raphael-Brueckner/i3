@@ -398,6 +398,59 @@ static void x_draw_decoration_after_title(Con *con, struct deco_render_params *p
 
     /* Redraw the border. */
     x_draw_title_border(con, p, dest_surface);
+
+
+if (config.titlebar_buttons_enabled) {
+    /* Farben definieren */
+    //color_t float_switch_btn_color = draw_util_hex_to_color("#FF0000"); // Rot
+    //color_t close_btn_color = draw_util_hex_to_color("#0000FF");        // Blau
+    //color_t icon_white = draw_util_hex_to_color("#FFFFFF");             // Weiß für die Symbole
+    //color_t button_color = config.client.focused.text ;
+    color_t button_color = config.client.unfocused.text;
+    if (con == focused) {
+        button_color = config.client.focused.text;
+    } else if (con->urgent) {
+        button_color = config.client.urgent.text;
+    }
+
+    /* 1. Floating Button Hintergrund & Icon */
+    /*draw_util_rectangle(dest_surface, float_switch_btn_color,
+                        con->deco_rect.x + con->deco_buttons.float_switch.x,
+                        con->deco_rect.y + con->deco_buttons.float_switch.y,
+                        con->deco_buttons.float_switch.width,
+                        con->deco_buttons.float_switch.height);*/
+    
+    //bool is_floating = (con->type == CT_FLOATING_CON);
+    bool is_floating = con_is_floating(con);
+    draw_icon_float(dest_surface->cr, 
+                    con->deco_rect.x + con->deco_buttons.float_switch.x, 
+                    con->deco_rect.y + con->deco_buttons.float_switch.y, 
+                    con->deco_buttons.float_switch.width, 
+                    button_color, 
+                    is_floating);
+
+    /* 2. Close Button Hintergrund & Icon */
+    /*draw_util_rectangle(dest_surface, close_btn_color,
+                        con->deco_rect.x + con->deco_buttons.close.x,
+                        con->deco_rect.y + con->deco_buttons.close.y,
+                        con->deco_buttons.close.width,
+                        con->deco_buttons.close.height);*/
+
+    draw_icon_close(dest_surface->cr, 
+                    con->deco_rect.x + con->deco_buttons.close.x, 
+                    con->deco_rect.y + con->deco_buttons.close.y, 
+                    con->deco_buttons.close.width, 
+                    button_color);
+
+    if (is_floating) {
+        draw_icon_stick(dest_surface->cr, 
+                    con->deco_rect.x + con->deco_buttons.stick.x, 
+                    con->deco_rect.y + con->deco_buttons.stick.y, 
+                    con->deco_buttons.stick.width, 
+                    button_color,
+                    con->sticky); // Hier kannst du direkt 'true' übergeben, da wir im if(is_floating) sind
+    }
+}
 }
 
 /*

@@ -21,6 +21,7 @@ static void render_con_stacked(Con *con, Con *child, render_params *p, int i);
 static void render_con_tabbed(Con *con, Con *child, render_params *p, int i);
 static void render_con_dockarea(Con *con, Con *child, render_params *p);
 
+static void update_deco_buttons(Con *con);
 /*
  * Returns the height for the decorations
  */
@@ -187,6 +188,7 @@ void render_con(Con *con) {
                 if (con_is_leaf(child)) {
                     if (child->border_style == BS_NORMAL) {
                         child->deco_rect.width = child->rect.width;
+                        update_deco_buttons(child);
                     }
                 }
             }
@@ -425,6 +427,7 @@ static void render_con_split(Con *con, Con *child, render_params *p, int i) {
 
             child->deco_rect.width = child->rect.width;
             child->deco_rect.height = p->deco_height;
+            update_deco_buttons(child);
         } else {
             child->deco_rect.x = 0;
             child->deco_rect.y = 0;
@@ -451,6 +454,7 @@ static void render_con_stacked(Con *con, Con *child, render_params *p, int i) {
         child->rect.y += (p->deco_height * p->children);
         child->rect.height -= (p->deco_height * p->children);
     }
+    update_deco_buttons(child);
 }
 
 static void render_con_tabbed(Con *con, Con *child, render_params *p, int i) {
@@ -478,6 +482,7 @@ static void render_con_tabbed(Con *con, Con *child, render_params *p, int i) {
     } else {
         child->deco_rect.height = (child->border_style == BS_PIXEL ? 1 : 0);
     }
+    update_deco_buttons(child);
 }
 
 static void render_con_dockarea(Con *con, Con *child, render_params *p) {
@@ -493,4 +498,36 @@ static void render_con_dockarea(Con *con, Con *child, render_params *p) {
     child->deco_rect.width = 0;
     child->deco_rect.height = 0;
     p->y += child->rect.height;
+}
+
+/* * Hilfsfunktion zur Berechnung der Button-Positionen innerhalb der deco_rect.
+ * Wird aufgerufen, sobald die finale Breite der Dekoration feststeht.
+ */
+static void update_deco_buttons(Con *con) {
+    int rect_size = logical_px(10);
+    int inner_padding = logical_px(4);
+    int edge_padding = logical_px(5);
+
+    // Close Button (rechts)
+    con->deco_buttons.close.x = con->deco_rect.width - rect_size - edge_padding;
+    con->deco_buttons.close.y = (con->deco_rect.height - rect_size) / 2;
+    con->deco_buttons.close.width = rect_size;
+    con->deco_buttons.close.height = rect_size;
+
+    // Float Switch Button (links vom Close Button)
+    con->deco_buttons.float_switch.x = con->deco_buttons.close.x - rect_size - inner_padding;
+    con->deco_buttons.float_switch.y = con->deco_buttons.close.y;
+    con->deco_buttons.float_switch.width = rect_size;
+    con->deco_buttons.float_switch.height = rect_size;
+
+    // Sticky Button (nur berechnen, wenn im Floating-Modus)
+    if (con_is_floating(con)) {
+        con->deco_buttons.stick.x = con->deco_buttons.float_switch.x - rect_size - inner_padding;
+        con->deco_buttons.stick.y = con->deco_buttons.float_switch.y;
+        con->deco_buttons.stick.width = rect_size;
+        con->deco_buttons.stick.height = rect_size;
+    } else {
+        // Optional: Auf 0 setzen, damit der Klick-Handler in x.c sicher ins Leere greift
+        con->deco_buttons.stick.width = 0;
+    }
 }
