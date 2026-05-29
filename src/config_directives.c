@@ -978,9 +978,9 @@ CFGFUN(bar_finish) {
     }
 }*/
 CFGFUN(titlebar_buttons, const char *value) {
-    if (strcmp(value, "enabled") == 0) {
+    if (strcmp(value, "enable") == 0) {
         config.titlebar_buttons_enabled = true;
-    } else if (strcmp(value, "disabled") == 0) {
+    } else if (strcmp(value, "disable") == 0) {
         config.titlebar_buttons_enabled = false;
     } else {
         /* This should already be caught by the definition in the .spec file,
