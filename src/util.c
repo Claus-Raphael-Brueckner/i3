@@ -556,7 +556,7 @@ void draw_icon_float(cairo_t *cr, double x, double y, double size, color_t color
     cairo_rectangle(cr, x + m, y + m, rect_size, rect_size);
     cairo_stroke(cr);
     cairo_rectangle(cr, x + m + (size*0.15), y + m + (size*0.15), rect_size, rect_size);
-    cairo_fill(cr); // Das vordere Quadrat ausgefüllt
+    cairo_fill(cr); /* front rectangle filled */
 
     cairo_restore(cr);
 }
@@ -564,7 +564,7 @@ void draw_icon_float(cairo_t *cr, double x, double y, double size, color_t color
 void draw_icon_stick(cairo_t *cr, double x, double y, double size, color_t color, bool active) {
     cairo_save(cr);
     
-    // Wenn nicht aktiv, reduzieren wir die Deckkraft (z.B. auf 30%)
+    /* Reduce opacity when inactive (15% of original alpha) */
     double alpha = active ? color.alpha : (color.alpha * 0.15);
     cairo_set_source_rgba(cr, color.red, color.green, color.blue, alpha);
     
@@ -581,16 +581,16 @@ void draw_icon_stick(cairo_t *cr, double x, double y, double size, color_t color
     cairo_translate(cr, cx, cy);
     cairo_rotate(cr, -3.14159 / 4.0); 
 
-    // 1. Kopf
+    /* 1. Head */
     cairo_move_to(cr, -head_width / 2.0, -body_height);
     cairo_line_to(cr, head_width / 2.0, -body_height);
     cairo_stroke(cr);
 
-    // 2. Körper
+    /* 2. Body */
     cairo_rectangle(cr, -head_width / 4.0, -body_height, head_width / 2.0, body_height);
     cairo_fill(cr);
 
-    // 3. Spitze
+    /* 3. Needle */
     cairo_move_to(cr, 0, 0);
     cairo_line_to(cr, 0, needle_length);
     cairo_stroke(cr);

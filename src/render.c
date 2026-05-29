@@ -500,34 +500,35 @@ static void render_con_dockarea(Con *con, Con *child, render_params *p) {
     p->y += child->rect.height;
 }
 
-/* * Hilfsfunktion zur Berechnung der Button-Positionen innerhalb der deco_rect.
- * Wird aufgerufen, sobald die finale Breite der Dekoration feststeht.
+/* Recalculate button hit-box positions within deco_rect.
+ * Called once the final decoration width is known.
  */
 static void update_deco_buttons(Con *con) {
     int rect_size = logical_px(10);
     int inner_padding = logical_px(4);
     int edge_padding = logical_px(5);
+    uint32_t h = con->deco_rect.height;
 
-    // Close Button (rechts)
+    /* Close Button: hitbox spans full titlebar height, X includes right edge padding */
     con->deco_buttons.close.x = con->deco_rect.width - rect_size - edge_padding;
-    con->deco_buttons.close.y = (con->deco_rect.height - rect_size) / 2;
-    con->deco_buttons.close.width = rect_size;
-    con->deco_buttons.close.height = rect_size;
+    con->deco_buttons.close.y = 0;
+    con->deco_buttons.close.width = rect_size + edge_padding;
+    con->deco_buttons.close.height = h;
 
-    // Float Switch Button (links vom Close Button)
+    /* Float Switch Button: hitbox spans full titlebar height, X includes inner padding to right */
     con->deco_buttons.float_switch.x = con->deco_buttons.close.x - rect_size - inner_padding;
-    con->deco_buttons.float_switch.y = con->deco_buttons.close.y;
-    con->deco_buttons.float_switch.width = rect_size;
-    con->deco_buttons.float_switch.height = rect_size;
+    con->deco_buttons.float_switch.y = 0;
+    con->deco_buttons.float_switch.width = rect_size + inner_padding;
+    con->deco_buttons.float_switch.height = h;
 
-    // Sticky Button (nur berechnen, wenn im Floating-Modus)
+    /* Sticky button (floating only): full titlebar height hitbox */
     if (con_is_floating(con)) {
         con->deco_buttons.stick.x = con->deco_buttons.float_switch.x - rect_size - inner_padding;
-        con->deco_buttons.stick.y = con->deco_buttons.float_switch.y;
-        con->deco_buttons.stick.width = rect_size;
-        con->deco_buttons.stick.height = rect_size;
+        con->deco_buttons.stick.y = 0;
+        con->deco_buttons.stick.width = rect_size + inner_padding;
+        con->deco_buttons.stick.height = h;
     } else {
-        // Optional: Auf 0 setzen, damit der Klick-Handler in x.c sicher ins Leere greift
         con->deco_buttons.stick.width = 0;
+        con->deco_buttons.stick.height = 0;
     }
 }
