@@ -202,27 +202,27 @@ static void route_click(Con *con, xcb_button_press_event_t *event, const click_d
         return;
     }
     
-    /* --- EIGENER CODE START: Titlebar Buttons --- */
+    /* --- CUSTOM CODE START: Titlebar Buttons --- */
     if (dest == CLICK_DECORATION && config.titlebar_buttons_enabled) {
         int rel_x = event->event_x - con->deco_rect.x;
         int rel_y = event->event_y - con->deco_rect.y;
 
-        // Close Button (Linksklick)
+        // Close button (left click)
         if (rect_contains(con->deco_buttons.close, rel_x, rel_y)) {
             if (event->detail == XCB_BUTTON_CLICK_LEFT) {
                 tree_close_internal(con, KILL_WINDOW, false);
                 tree_render();
             }
-            return; // Verhindert, dass i3 danach ein Dragging startet
+            return; // Prevents i3 from starting a drag afterwards
         }
 
-        // Float Switch Button (Linksklick)
+        // Float switch button (left click)
         if (rect_contains(con->deco_buttons.float_switch, rel_x, rel_y)) {
             if (event->detail == XCB_BUTTON_CLICK_LEFT) {
                 Con *target = con;
         
-                // Wenn wir bereits auf einem CT_FLOATING_CON geklickt haben,
-                // müssen wir das darin enthaltene Fenster (CT_CON) finden.
+                // If we already clicked on a CT_FLOATING_CON,
+                // we need to find the contained window (CT_CON).
                 if (con->type == CT_FLOATING_CON) {
                     target = TAILQ_FIRST(&(con->nodes_head));
                 }
@@ -235,7 +235,7 @@ static void route_click(Con *con, xcb_button_press_event_t *event, const click_d
             return;
         }
         
-        // Stick Button (Linksklick)
+        // Stick button (left click)
         if (rect_contains(con->deco_buttons.stick, rel_x, rel_y)) {
             if (event->detail == XCB_BUTTON_CLICK_LEFT) {
                 if (con_is_floating(con)) {
@@ -249,7 +249,7 @@ static void route_click(Con *con, xcb_button_press_event_t *event, const click_d
             return; 
         }
     }
-    /* --- EIGENER CODE ENDE --- */
+    /* --- CUSTOM CODE END --- */
 
     /* Any click in a workspace should focus that workspace. If the
      * workspace is on another output we need to do a workspace_show in

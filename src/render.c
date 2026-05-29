@@ -500,34 +500,34 @@ static void render_con_dockarea(Con *con, Con *child, render_params *p) {
     p->y += child->rect.height;
 }
 
-/* * Hilfsfunktion zur Berechnung der Button-Positionen innerhalb der deco_rect.
- * Wird aufgerufen, sobald die finale Breite der Dekoration feststeht.
+/* * Helper function to calculate button positions within the deco_rect.
+ * Called once the final width of the decoration is determined.
  */
 static void update_deco_buttons(Con *con) {
     int rect_size = logical_px(10);
     int inner_padding = logical_px(4);
     int edge_padding = logical_px(5);
 
-    // Close Button (rechts)
+    // Close button (right)
     con->deco_buttons.close.x = con->deco_rect.width - rect_size - edge_padding;
     con->deco_buttons.close.y = (con->deco_rect.height - rect_size) / 2;
     con->deco_buttons.close.width = rect_size;
     con->deco_buttons.close.height = rect_size;
 
-    // Float Switch Button (links vom Close Button)
+    // Float switch button (left of close button)
     con->deco_buttons.float_switch.x = con->deco_buttons.close.x - rect_size - inner_padding;
     con->deco_buttons.float_switch.y = con->deco_buttons.close.y;
     con->deco_buttons.float_switch.width = rect_size;
     con->deco_buttons.float_switch.height = rect_size;
 
-    // Sticky Button (nur berechnen, wenn im Floating-Modus)
+    // Sticky button (only calculated in floating mode)
     if (con_is_floating(con)) {
         con->deco_buttons.stick.x = con->deco_buttons.float_switch.x - rect_size - inner_padding;
         con->deco_buttons.stick.y = con->deco_buttons.float_switch.y;
         con->deco_buttons.stick.width = rect_size;
         con->deco_buttons.stick.height = rect_size;
     } else {
-        // Optional: Auf 0 setzen, damit der Klick-Handler in x.c sicher ins Leere greift
+        // Optional: set to 0 so the click handler in x.c safely misses
         con->deco_buttons.stick.width = 0;
     }
 }

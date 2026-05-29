@@ -983,8 +983,8 @@ CFGFUN(titlebar_buttons, const char *value) {
     } else if (strcmp(value, "disabled") == 0) {
         config.titlebar_buttons_enabled = false;
     } else {
-        /* Dies sollte durch die Definition in der .spec Datei 
-         * eigentlich schon abgefangen sein, aber sicher ist sicher. */
+        /* This should already be caught by the definition in the .spec file,
+         * but better safe than sorry. */
         ELOG("Invalid value for titlebar_buttons: %s\n", value);
     }
 }
