@@ -425,6 +425,13 @@ if (config.titlebar_buttons_enabled) {
     int icon_size = con->deco_buttons.close.width;
     int icon_draw_y = con->deco_rect.y + (con->deco_rect.height - icon_size) / 2;
 
+#define DRAW_BUTTON_BG(btn) \
+    draw_util_rectangle(dest_surface, p->color->background, \
+                        con->deco_rect.x + con->deco_buttons.btn.x - DECO_BUTTON_PADDING, \
+                        con->deco_rect.y, \
+                        icon_size + DECO_BUTTON_PADDING, con->deco_rect.height)
+
+    DRAW_BUTTON_BG(float_switch);
     draw_icon_float(dest_surface->cr,
                     con->deco_rect.x + con->deco_buttons.float_switch.x,
                     icon_draw_y,
@@ -432,7 +439,7 @@ if (config.titlebar_buttons_enabled) {
                     button_color,
                     is_floating);
 
-    /* 2. Close button background & icon */
+    DRAW_BUTTON_BG(close);
     draw_icon_close(dest_surface->cr,
                     con->deco_rect.x + con->deco_buttons.close.x,
                     icon_draw_y,
@@ -440,6 +447,7 @@ if (config.titlebar_buttons_enabled) {
                     button_color);
 
     if (is_floating) {
+        DRAW_BUTTON_BG(stick);
         draw_icon_stick(dest_surface->cr,
                     con->deco_rect.x + con->deco_buttons.stick.x,
                     icon_draw_y,
@@ -447,6 +455,8 @@ if (config.titlebar_buttons_enabled) {
                     button_color,
                     con->sticky);
     }
+
+#undef DRAW_BUTTON_BG
 }
 }
 

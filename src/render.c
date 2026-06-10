@@ -504,9 +504,9 @@ static void render_con_dockarea(Con *con, Con *child, render_params *p) {
  * Called once the final width of the decoration is determined.
  */
 static void update_deco_buttons(Con *con) {
-    int rect_size = logical_px(10);
-    int inner_padding = logical_px(4);
-    int edge_padding = logical_px(5);
+    int rect_size = DECO_BUTTON_SIZE;
+    int inner_padding = DECO_BUTTON_PADDING;
+    int edge_padding = DECO_BUTTON_EDGE;
 
     int full_height = con->deco_rect.height;
 

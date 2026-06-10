@@ -812,3 +812,7 @@ struct Con {
         Rect stick;
     } deco_buttons;
 };
+
+#define DECO_BUTTON_SIZE      logical_px(10)
+#define DECO_BUTTON_PADDING   logical_px(4)
+#define DECO_BUTTON_EDGE      logical_px(5)
