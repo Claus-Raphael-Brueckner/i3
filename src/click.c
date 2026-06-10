@@ -202,7 +202,6 @@ static void route_click(Con *con, xcb_button_press_event_t *event, const click_d
         return;
     }
     
-    /* --- CUSTOM CODE START: Titlebar Buttons --- */
     if (dest == CLICK_DECORATION && config.titlebar_buttons_enabled) {
         int rel_x = event->event_x - con->deco_rect.x;
         int rel_y = event->event_y - con->deco_rect.y;
@@ -249,7 +248,6 @@ static void route_click(Con *con, xcb_button_press_event_t *event, const click_d
             return; 
         }
     }
-    /* --- CUSTOM CODE END --- */
 
     /* Any click in a workspace should focus that workspace. If the
      * workspace is on another output we need to do a workspace_show in

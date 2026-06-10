@@ -500,7 +500,7 @@ static void render_con_dockarea(Con *con, Con *child, render_params *p) {
     p->y += child->rect.height;
 }
 
-/* * Helper function to calculate button positions within the deco_rect.
+/* Helper function to calculate button positions within the deco_rect.
  * Called once the final width of the decoration is determined.
  */
 static void update_deco_buttons(Con *con) {

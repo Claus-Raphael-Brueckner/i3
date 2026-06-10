@@ -970,13 +970,6 @@ CFGFUN(bar_finish) {
     current_bar = NULL;
 }
 
-/*void cfg_titlebar_buttons(Match *current_match, ConfigResultIR *result, const char *value) {
-    if (strcmp(value, "enabled") == 0) {
-        config.titlebar_buttons_enabled = true;
-    } else {
-        config.titlebar_buttons_enabled = false;
-    }
-}*/
 CFGFUN(titlebar_buttons, const char *value) {
     if (strcmp(value, "enable") == 0) {
         config.titlebar_buttons_enabled = true;

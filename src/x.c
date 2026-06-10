@@ -400,64 +400,51 @@ static void x_draw_decoration_after_title(Con *con, struct deco_render_params *p
     x_draw_title_border(con, p, dest_surface);
 
 
-if (config.titlebar_buttons_enabled) {
-    /* Define colors */
-    //color_t float_switch_btn_color = draw_util_hex_to_color("#FF0000"); // Red
-    //color_t close_btn_color = draw_util_hex_to_color("#0000FF");        // Blue
-    //color_t icon_white = draw_util_hex_to_color("#FFFFFF");             // White for the icons
-    //color_t button_color = config.client.focused.text ;
-    color_t button_color = config.client.unfocused.text;
-    if (con == focused) {
-        button_color = config.client.focused.text;
-    } else if (con->urgent) {
-        button_color = config.client.urgent.text;
-    }
+    if (config.titlebar_buttons_enabled) {
+        color_t button_color = config.client.unfocused.text;
+        if (con == focused) {
+            button_color = config.client.focused.text;
+        } else if (con->urgent) {
+            button_color = config.client.urgent.text;
+        }
 
-    /* 1. Floating button background & icon */
-    /*draw_util_rectangle(dest_surface, float_switch_btn_color,
-                        con->deco_rect.x + con->deco_buttons.float_switch.x,
-                        con->deco_rect.y + con->deco_buttons.float_switch.y,
-                        con->deco_buttons.float_switch.width,
-                        con->deco_buttons.float_switch.height);*/
-    
-    //bool is_floating = (con->type == CT_FLOATING_CON);
-    bool is_floating = con_is_floating(con);
-    int icon_size = con->deco_buttons.close.width;
-    int icon_draw_y = con->deco_rect.y + (con->deco_rect.height - icon_size) / 2;
+        bool is_floating = con_is_floating(con);
+        int icon_size = con->deco_buttons.close.width;
+        int icon_draw_y = con->deco_rect.y + (con->deco_rect.height - icon_size) / 2;
 
 #define DRAW_BUTTON_BG(btn) \
-    draw_util_rectangle(dest_surface, p->color->background, \
-                        con->deco_rect.x + con->deco_buttons.btn.x - DECO_BUTTON_PADDING, \
-                        con->deco_rect.y, \
-                        icon_size + DECO_BUTTON_PADDING, con->deco_rect.height)
+        draw_util_rectangle(dest_surface, p->color->background, \
+                            con->deco_rect.x + con->deco_buttons.btn.x - DECO_BUTTON_PADDING, \
+                            con->deco_rect.y, \
+                            icon_size + DECO_BUTTON_PADDING, con->deco_rect.height)
 
-    DRAW_BUTTON_BG(float_switch);
-    draw_icon_float(dest_surface->cr,
-                    con->deco_rect.x + con->deco_buttons.float_switch.x,
-                    icon_draw_y,
-                    icon_size,
-                    button_color,
-                    is_floating);
+        DRAW_BUTTON_BG(float_switch);
+        draw_icon_float(dest_surface->cr,
+                        con->deco_rect.x + con->deco_buttons.float_switch.x,
+                        icon_draw_y,
+                        icon_size,
+                        button_color,
+                        is_floating);
 
-    DRAW_BUTTON_BG(close);
-    draw_icon_close(dest_surface->cr,
-                    con->deco_rect.x + con->deco_buttons.close.x,
-                    icon_draw_y,
-                    icon_size,
-                    button_color);
+        DRAW_BUTTON_BG(close);
+        draw_icon_close(dest_surface->cr,
+                        con->deco_rect.x + con->deco_buttons.close.x,
+                        icon_draw_y,
+                        icon_size,
+                        button_color);
 
-    if (is_floating) {
-        DRAW_BUTTON_BG(stick);
-        draw_icon_stick(dest_surface->cr,
-                    con->deco_rect.x + con->deco_buttons.stick.x,
-                    icon_draw_y,
-                    icon_size,
-                    button_color,
-                    con->sticky);
-    }
+        if (is_floating) {
+            DRAW_BUTTON_BG(stick);
+            draw_icon_stick(dest_surface->cr,
+                            con->deco_rect.x + con->deco_buttons.stick.x,
+                            icon_draw_y,
+                            icon_size,
+                            button_color,
+                            con->sticky);
+        }
 
 #undef DRAW_BUTTON_BG
-}
+    }
 }
 
 /*
