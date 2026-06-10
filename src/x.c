@@ -415,8 +415,8 @@ static void x_draw_decoration_after_title(Con *con, struct deco_render_params *p
 #define DRAW_BUTTON_BG(btn) \
         draw_util_rectangle(dest_surface, p->color->background, \
                             con->deco_rect.x + con->deco_buttons.btn.x - DECO_BUTTON_PADDING, \
-                            con->deco_rect.y, \
-                            icon_size + DECO_BUTTON_PADDING, con->deco_rect.height)
+                            con->deco_rect.y + logical_px(1), \
+                            icon_size + DECO_BUTTON_PADDING, con->deco_rect.height - 2 * logical_px(1))
 
         DRAW_BUTTON_BG(float_switch);
         draw_icon_float(dest_surface->cr,
