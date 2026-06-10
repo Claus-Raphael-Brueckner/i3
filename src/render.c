@@ -508,26 +508,27 @@ static void update_deco_buttons(Con *con) {
     int inner_padding = logical_px(4);
     int edge_padding = logical_px(5);
 
-    // Close button (right)
+    int full_height = con->deco_rect.height;
+
+    // Close button (right) — full height for click, icon size stored in width
     con->deco_buttons.close.x = con->deco_rect.width - rect_size - edge_padding;
-    con->deco_buttons.close.y = (con->deco_rect.height - rect_size) / 2;
+    con->deco_buttons.close.y = 0;
     con->deco_buttons.close.width = rect_size;
-    con->deco_buttons.close.height = rect_size;
+    con->deco_buttons.close.height = full_height;
 
     // Float switch button (left of close button)
     con->deco_buttons.float_switch.x = con->deco_buttons.close.x - rect_size - inner_padding;
-    con->deco_buttons.float_switch.y = con->deco_buttons.close.y;
+    con->deco_buttons.float_switch.y = 0;
     con->deco_buttons.float_switch.width = rect_size;
-    con->deco_buttons.float_switch.height = rect_size;
+    con->deco_buttons.float_switch.height = full_height;
 
     // Sticky button (only calculated in floating mode)
     if (con_is_floating(con)) {
         con->deco_buttons.stick.x = con->deco_buttons.float_switch.x - rect_size - inner_padding;
-        con->deco_buttons.stick.y = con->deco_buttons.float_switch.y;
+        con->deco_buttons.stick.y = 0;
         con->deco_buttons.stick.width = rect_size;
-        con->deco_buttons.stick.height = rect_size;
+        con->deco_buttons.stick.height = full_height;
     } else {
-        // Optional: set to 0 so the click handler in x.c safely misses
         con->deco_buttons.stick.width = 0;
     }
 }
