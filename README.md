@@ -3,6 +3,9 @@
 
 This is a fork of [i3](https://github.com/i3/i3) that adds opt-in titlebar buttons for closing, toggling floating mode, and toggling sticky.
 
+
+<img width="1920" height="1080" alt="titlebar_buttons" src="https://github.com/user-attachments/assets/cc3e710d-d038-4833-8377-3716f7a991a4" />
+
 ## Buttons
 
 | Button | Action |
